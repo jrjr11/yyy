@@ -7,7 +7,7 @@ public class Main
     {
         JFrame frame = new JFrame();
 
-        frame.setBounds(0,0,500,535);
+        frame.setBounds(0,0,717,890);
         frame.setTitle("Dig Dug");
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
