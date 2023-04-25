@@ -1,5 +1,4 @@
-
-package com.example.isuproject;
+package com.example.isuproject1;
 import javafx.event.ActionEvent;
 import java.awt.*;
 import javax.swing.*;
@@ -47,14 +46,15 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener
         int i1 = (player.getX()+25)/50;
         int j1 = (player.getY()-25)/50;
         Wall dead = new Wall((i1 * 50), ((j1+1) * 50), false, false, false, false, true);
-        for(int i = 0; i < 14; i++) {map[i][0] = dead;}
-        for(int i = 0; i < 3; i++) {map[i+5][8] = dead;}
-        for(int i = 0; i < 4; i++) {map[i+2][11] = dead;}
-        for(int i = 0; i < 4; i++) {map[i+9][3] = dead;}
-        for(int i = 0; i < 4; i++) {map[1][i+3] = dead;}
-        for(int i = 0; i < 5; i++) {map[9][i+10] = dead;}
-
         map[i1][j1] = dead;
+
+        for(int i = 0; i < 14; i++) {map[i][0].setDead(true);}
+        for(int i = 0; i < 3; i++) {map[i+5][8].setDead(true);}
+        for(int i = 0; i < 4; i++) {map[i+2][11].setDead(true);}
+        for(int i = 0; i < 4; i++) {map[i+9][3].setDead(true);}
+        for(int i = 0; i < 4; i++) {map[1][i+3].setDead(true);}
+        for(int i = 0; i < 5; i++) {map[9][i+10].setDead(true);}
+
 
         for(int i = 0; i < 14; i++)
         {
@@ -114,6 +114,7 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener
         {
             player.moveDown();
         }
+        
     }
 
     public void keyReleased(KeyEvent e) {
