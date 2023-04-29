@@ -16,11 +16,11 @@ public class Player extends Entity
             setDy(0);
             setDx(+1);
         }
-        else if(getY() % 50 == 10){ //Leeway within grid
-            setY(getY()-10);
+        else if(getY() % 50 == 5 || getY() % 50 == 10){ //Leeway within grid
+            setY(getY()-5);
         }
-        else if(getY() % 50 == 40){ //Leeway within grid
-            setY(getY()+10);
+        else if(getY() % 50 == 40 || getY() % 50 == 45){ //Leeway within grid
+            setY(getY()+5);
         }
         System.out.println("XLOC: "+getX());
     }
@@ -31,11 +31,11 @@ public class Player extends Entity
             setDy(0);
             setDx(-1);
         }
-        else if(getY() % 50 == 10){ //Leeway within grid
-            setY(getY()-10);
+        else if(getY() % 50 == 5 || getY() % 50 == 10){ //Leeway within grid
+            setY(getY()-5);
         }
-        else if(getY() % 50 == 40){ //Leeway within grid
-            setY(getY()+10);
+        else if(getY() % 50 == 40 || getY() % 50 == 45){ //Leeway within grid
+            setY(getY()+5);
         }
         System.out.println("XLOC: "+getX());
     }
@@ -44,14 +44,14 @@ public class Player extends Entity
         if(getX() % 50 == 0){    //If within column
             setY(getY()- getSpeed());
             setDx(0);
-            setDy(+1);
+            setDy(-1);
 
         }
-        else if(getX() % 50 == 10){ //Leeway within grid
-            setX(getX()-10);
+        else if(getX() % 50 == 5 || getX() % 50 == 10){ //Leeway within grid
+            setX(getX()-5);
         }
-        else if(getX() % 50 == 40){ //Leeway within grid
-            setX(getX()+10);
+        else if(getX() % 50 == 40 || getX() % 50 == 45){ //Leeway within grid
+            setX(getX()+5);
         }
         System.out.println("YLOC: "+getY());
     }
@@ -60,14 +60,21 @@ public class Player extends Entity
         if(getX() % 50 == 0){    //If within column
             setY(getY()+ getSpeed());
             setDx(0);
-            setDy(-1);
+            setDy(1);
         }
-        else if(getX() % 50 == 10){ //Leeway within grid
-            setX(getX()-10);
+        else if(getX() % 50 == 5 || getX() % 50 == 10){ //Leeway within grid
+            setX(getX()-5);
         }
-        else if(getX() % 50 == 40){ //Leeway within grid
-            setX(getX()+10);
+        else if(getX() % 50 == 40 || getX() % 50 == 45){ //Leeway within grid
+            setX(getX()+5);
         }
         System.out.println("YLOC: "+getY());
+    }
+    public void draw(Graphics g)
+    {
+        g.setColor(Color.black);
+        g.fillRoundRect(getX()+5, getY()+5, 41, 41, 10, 10);
+        g.setColor(getColor());
+        g.fillOval(getX()+10, getY()+10, 30, 30);
     }
 }
