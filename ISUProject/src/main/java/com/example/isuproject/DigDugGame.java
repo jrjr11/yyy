@@ -11,6 +11,7 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener
     private Entity entity;
     private Wall[][] map = new Wall[14][16];
 
+    boolean[] keys = new boolean[200];
     // Constructor
     public DigDugGame()
     {
@@ -24,7 +25,7 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener
         }
 
         addKeyListener(this);
-        timer = new Timer(10, this);
+        timer = new Timer(20, this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         timer.start();
@@ -40,6 +41,8 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener
         paintMap(g);
         player.draw(g);
         paintGrid(g);
+
+
     }
     public void paintMap(Graphics g)
     {
@@ -63,7 +66,6 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener
                 map[i][j].draw(g);
             }
         }
-        System.out.println(map[1][3].getIsDead());
     }
 
     public void paintGrid(Graphics g)
@@ -87,37 +89,37 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
         timer.start();
+        update();
         repaint();
     }
 
-
-    public void keyTyped(KeyEvent e) {
-
-    }
-
     public void keyPressed(KeyEvent e) {
-        //play = true;
-
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-        {
-            player.moveRight();
-        }
-        if(e.getKeyCode() == KeyEvent.VK_LEFT)
-        {
-            player.moveLeft();
-        }
-        if(e.getKeyCode() == KeyEvent.VK_UP)
-        {
-            player.moveUp();
-        }
-        if(e.getKeyCode() == KeyEvent.VK_DOWN)
-        {
-            player.moveDown();
-        }
-        
+        keys[e.getKeyCode()] = true;
     }
 
     public void keyReleased(KeyEvent e) {
+        keys[e.getKeyCode()] = false;
+    }
 
+    public void keyTyped(KeyEvent e) {
+    }
+
+    public void update()
+    {
+        if(keys[KeyEvent.VK_W] || keys[KeyEvent.VK_UP]){
+            player.moveUp();
+        }
+
+        if(keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN]){
+            player.moveDown();
+        }
+
+        if(keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT]){
+            player.moveLeft();
+        }
+
+        if(keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]){
+            player.moveRight();
+        }
     }
 }
