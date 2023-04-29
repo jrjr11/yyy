@@ -23,12 +23,14 @@ public class Entity
     public int getDx() {return dx;}
     public int getDy() {return dy;}
     public int getSpeed() {return speed;}
+    public Color getColor() {return color;}
 
     public void setX(int x1) {x = x1;}
     public void setY(int y1) {y = y1;}
     public void setDx(int dx1) {dx = dx1;}
     public void setDy(int dy1) {dy = dy1;}
     public void setSpeed(int sp) {speed = sp;}
+    public void setColor(Color c) {color = c;}
 
     public void move (Graphics g)
     {
