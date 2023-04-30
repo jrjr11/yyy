@@ -3,23 +3,28 @@ import javafx.event.ActionEvent;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 public class DigDugGame extends JPanel implements KeyListener, ActionListener {
     // Instance Vars
     private Timer timer;
     private Player player;
+    private Enemy enemy;
     private Entity entity;
     private Wall[][] map = new Wall[14][16];
+    private Maze maze;
 
     boolean[] keys = new boolean[200];
 
     // Constructor
     public DigDugGame() {
         player = new Player(300, 450, 1, 1, 5, Color.blue);
+        enemy = new Enemy(450, 550, 1, 1, 5, Color.green);
         for (int i = 0; i < 14; i++) {
             for (int j = 0; j < 16; j++) {
                 map[i][j] = new Wall((i * 50), ((j + 1) * 50), false, false, false, false, false);
             }
         }
+
 
         addKeyListener(this);
         timer = new Timer(50, this);
@@ -36,8 +41,27 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
         g.fillRect(0, 54, 700, 850);
         paintPlayerMovement();
         paintMap(g);
+        enemy.draw(g);
+        enemy.move(maze, map, player);
         player.draw(g);
+        findPlayer(g);
+        enemy.collidesWith(player);
+        //System.out.println(maze);
         //paintGrid(g);
+    }
+
+    public void findPlayer(Graphics g)
+    {
+        int x = (enemy.getX()+25)/50;
+        int y = (enemy.getY()-25)/50;
+        maze = new Maze(14, 16, map, player);
+        MazeSolver solver = new MazeSolver(maze);
+
+        //if(solver.traverse(x, y))
+            //System.out.println("caught");
+        //else
+            //System.out.println("Noncaught");
+        enemy.collidesWith(player);
     }
 
     public void paintMap(Graphics g) {
@@ -87,7 +111,7 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
     {
         int i1 = (player.getX()+25)/50;
         int j1 = (player.getY()-25)/50;
-        System.out.println(map[i1][j1]);
+        //System.out.println(map[i1][j1]);
 
         if(player.getDx() == 1)
         {
@@ -125,7 +149,7 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
             {
                 map[i1][j1].setUpD(true);
             }
-            System.out.println("YLOC%%%: "+ (player.getY() % 50));
+            //System.out.println("YLOC%%%: "+ (player.getY() % 50));
             if(map[i1+1][j1].getLeftD() == true)//if to left is true
             {
                 map[i1][j1].setRightD(true);
@@ -170,7 +194,7 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
             {
                 map[i1][j1].setDownD(true);
             }
-            System.out.println("YLOC%%%: "+ (player.getY() % 50));
+            //System.out.println("YLOC%%%: "+ (player.getY() % 50));
             if(map[i1+1][j1].getLeftD() == true)//if to left is true
             {
                 map[i1][j1].setRightD(true);
