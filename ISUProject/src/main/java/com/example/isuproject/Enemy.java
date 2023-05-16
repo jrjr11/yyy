@@ -27,28 +27,40 @@ public class Enemy extends Entity
         MazeSolver solver = new MazeSolver(maze);
         if(solver.traverse(x, y))
         {
-            //System.out.println("X: "+getX() % 50);
-            if(solved[x+1][y] == 3)
+            if (x != 0)
             {
-                if(getY() % 50 == 0)
-                    setX(getX()+5);
+                if(solved[x-1][y] == 3)
+                {
+                    if(getY() % 50 == 0)
+                        setX(getX()-5);
+                }
             }
-            if(solved[x][y+1] == 3)
+            if (x != 13)
             {
-                if(getX() % 50 == 0)
-                    setY(getY()+5);
+                if(solved[x+1][y] == 3)
+                {
+                    if(getY() % 50 == 0)
+                        setX(getX()+5);
+                }
             }
-            if(solved[x-1][y] == 3)
+            if(y != 0)
             {
-                if(getY() % 50 == 0)
-                    setX(getX()-5);
-            }
-            if(solved[x][y-1] == 3)
-            {
-                if(getX() % 50 == 0)
-                    setY(getY()-5);
+                if(solved[x][y-1] == 3)
+                {
+                    if(getX() % 50 == 0)
+                        setY(getY()-5);
 
+                }
             }
+            if(y != 15)
+            {
+                if(solved[x][y+1] == 3)
+                {
+                    if(getX() % 50 == 0)
+                        setY(getY()+5);
+                }
+            }
+            //System.out.println("X: "+getX() % 50);
         }
         //System.out.print(maze);
 
