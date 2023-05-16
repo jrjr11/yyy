@@ -32,7 +32,10 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
         setFocusTraversalKeysEnabled(false);
         timer.start();
     }
-
+    public Wall[][] getMap()
+    {
+        return map;
+    }
     public void paint(Graphics g) {
         g.setColor(Color.black);
         g.fillRect(0, 0, 700, 850);
@@ -111,99 +114,108 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
     {
         int i1 = (player.getX()+25)/50;
         int j1 = (player.getY()-25)/50;
-        //System.out.println(map[i1][j1]);
+        System.out.println("i1:  " + i1);
+        System.out.println("Dy:  " + player.getDy());
+        if(player.getY() > 25) {
+            if (player.getDx() == 1) {
+                if (i1 != 0) {
+                    if (map[i1 - 1][j1].getRightD() == true) {
+                        map[i1][j1].setLeftD(true);
+                    }
+                }
+                if (player.getX() % 50 == 0 || player.getX() % 50 == 45 || player.getX() % 50 == 5) {
+                    map[i1][j1].setDead(true);
+                }
+                if (player.getX() % 50 > 10 && player.getX() % 50 < 25) {
+                    map[i1][j1].setRightD(true);
+                }
+                if (j1 != 0) {
+                    if (map[i1][j1 - 1].getDownD() == true) {
+                        map[i1][j1].setUpD(true);
+                    }
+                }
+                if (j1 != 15) {
+                    if (map[i1][j1 + 1].getUpD() == true) {
+                        map[i1][j1].setDownD(true);
+                    }
+                }
+            }
+            else if (player.getDy() == -1) {
+                if (j1 != 15) {
+                    if (map[i1][j1 + 1].getUpD() == true) {
+                        map[i1][j1].setDownD(true);
+                    }
+                }
+                if (player.getY() % 50 == 0 || player.getX() % 50 == 45 || player.getX() % 50 == 5) {
+                    map[i1][j1].setDead(true);
+                }
+                if (player.getY() % 50 < 40 && player.getY() % 50 > 25) {
+                    map[i1][j1].setUpD(true);
+                }
+                //System.out.println("YLOC%%%: "+ (player.getY() % 50));
+                if (i1 != 13) {
+                    if (map[i1 + 1][j1].getLeftD() == true) {
+                        map[i1][j1].setRightD(true);
+                    }
+                }
+                if (i1 != 0) {
+                    if (map[i1 - 1][j1].getRightD() == true) {
+                        map[i1][j1].setLeftD(true);
+                    }
+                }
+            }
+            else if (player.getDx() == -1) {
+                if (i1 != 13) {
+                    if (map[i1 + 1][j1].getLeftD() == true) {
+                        map[i1][j1].setRightD(true);
+                    }
+                }
+                if (player.getX() % 50 == 0 || player.getY() % 50 == 45 || player.getY() % 50 == 5) {
+                    map[i1][j1].setDead(true);
+                }
+                if (player.getX() % 50 < 40 && player.getX() % 50 > 25) {
+                    map[i1][j1].setLeftD(true);
+                }
+                if (j1 != 0) {
+                    if (map[i1][j1 - 1].getDownD() == true) {
+                        map[i1][j1].setUpD(true);
+                    }
+                }
+                if (j1 != 15) {
+                    if (map[i1][j1 + 1].getUpD() == true) {
+                        map[i1][j1].setDownD(true);
+                    }
+                }
+            }
+            else if (player.getDy() == 1) {
+                if (j1 != 0) {
+                    if (map[i1][j1 - 1].getDownD() == true) {
+                        map[i1][j1].setUpD(true);
+                    }
+                }
+                if (player.getY() % 50 == 0 || player.getY() % 50 == 45 || player.getY() % 50 == 5) {
+                    map[i1][j1].setDead(true);
+                }
+                if (player.getY() % 50 > 10 && player.getY() % 50 < 25) {
+                    map[i1][j1].setDownD(true);
+                }
+                //System.out.println("YLOC%%%: "+ (player.getY() % 50));
+                if (i1 != 13) {
+                    if (map[i1 + 1][j1].getLeftD() == true) {
+                        map[i1][j1].setRightD(true);
+                    }
+                }
+                if (i1 != 0) {
+                    if (map[i1 - 1][j1].getRightD() == true) {
+                        map[i1][j1].setLeftD(true);
+                    }
+                }
+            }
+        }
+        else if (player.getDy() == 1 && player.getY() > 20) {
+                    map[i1][j1].setUpD(true);
+        }
 
-        if(player.getDx() == 1)
-        {
-            if(map[i1-1][j1].getRightD() == true)//if to right is true
-            {
-                map[i1][j1].setLeftD(true);
-            }
-            if(player.getX() % 50 == 0 || player.getX() % 50 == 45 || player.getX() % 50 == 5)
-            {
-                map[i1][j1].setDead(true);
-            }
-            if(player.getX() % 50 > 10 && player.getX() % 50 < 25)
-            {
-                map[i1][j1].setRightD(true);
-            }
-            if(map[i1][j1-1].getDownD() == true)//if to right is true
-            {
-                map[i1][j1].setUpD(true);
-            }
-            if(map[i1][j1+1].getUpD() == true)//if to right is true
-            {
-                map[i1][j1].setDownD(true);
-            }
-        }
-        else if(player.getDy() == -1){
-            if(map[i1][j1+1].getUpD() == true)//if to right is true
-            {
-                map[i1][j1].setDownD(true);
-            }
-            if(player.getY() % 50 == 0 || player.getX() % 50 == 45 || player.getX() % 50 == 5)
-            {
-                map[i1][j1].setDead(true);
-            }
-            if(player.getY() % 50 < 40 && player.getY() % 50 > 25)
-            {
-                map[i1][j1].setUpD(true);
-            }
-            //System.out.println("YLOC%%%: "+ (player.getY() % 50));
-            if(map[i1+1][j1].getLeftD() == true)//if to left is true
-            {
-                map[i1][j1].setRightD(true);
-            }
-            if(map[i1-1][j1].getRightD() == true)//if to right is true
-            {
-                map[i1][j1].setLeftD(true);
-            }
-        }
-        else if(player.getDx() == -1){
-            if(map[i1+1][j1].getLeftD() == true)//if to left is true
-            {
-                map[i1][j1].setRightD(true);
-            }
-            if(player.getX() % 50 == 0 || player.getY() % 50 == 45 || player.getY() % 50 == 5)
-            {
-                map[i1][j1].setDead(true);
-            }
-            if(player.getX() % 50 < 40 && player.getX() % 50 > 25)
-            {
-                map[i1][j1].setLeftD(true);
-            }
-            if(map[i1][j1-1].getDownD() == true)//if to right is true
-            {
-                map[i1][j1].setUpD(true);
-            }
-            if(map[i1][j1+1].getUpD() == true)//if to right is true
-            {
-                map[i1][j1].setDownD(true);
-            }
-        }
-        else if(player.getDy() == 1){
-            if(map[i1][j1-1].getDownD() == true)//if to right is true
-            {
-                map[i1][j1].setUpD(true);
-            }
-            if(player.getY() % 50 == 0 || player.getY() % 50 == 45 || player.getY() % 50 == 5)
-            {
-                map[i1][j1].setDead(true);
-            }
-            if(player.getY() % 50 > 10 && player.getY() % 50 < 25)
-            {
-                map[i1][j1].setDownD(true);
-            }
-            //System.out.println("YLOC%%%: "+ (player.getY() % 50));
-            if(map[i1+1][j1].getLeftD() == true)//if to left is true
-            {
-                map[i1][j1].setRightD(true);
-            }
-            if(map[i1-1][j1].getRightD() == true)//if to right is true
-            {
-                map[i1][j1].setLeftD(true);
-            }
-        }
     }
 
     public void paintGrid(Graphics g)
