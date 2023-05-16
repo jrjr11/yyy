@@ -72,24 +72,24 @@ public class Wall
         {
             g.setColor(Color.red.darker().darker());
         }
-        g.fillRect(x+27, y+2, 3, 3);
-        g.fillRect(x+20, y+9, 3, 3);
-        g.fillRect(x+45, y+9, 3, 3);
-        g.fillRect(x+8, y+14, 3, 3);
-        g.fillRect(x+20, y+19, 3, 3);
-        g.fillRect(x+29, y+14, 3, 3);
-        g.fillRect(x+12, y+23, 3, 3);
-        g.fillRect(x+40, y+25, 3, 3);
-        g.fillRect(x+19, y+27, 3, 3);
-        g.fillRect(x+12, y+34, 3, 3);
-        g.fillRect(x+42, y+34, 3, 3);
-        g.fillRect(x+10, y+45, 3, 3);
-        g.fillRect(x+25, y+42, 3, 3);
-        g.fillRect(x+34, y+45, 3, 3);
-        g.fillRect(x+31, y+30, 3, 3);
-        g.fillRect(x+3, y+25, 3, 3);
-        g.fillRect(x+5, y+4, 3, 3);
-        g.fillRect(x+46, y+46, 3, 3);
+        g.fillOval(x+27, y+2, 3, 3);
+        g.fillOval(x+20, y+9, 3, 3);
+        g.fillOval(x+45, y+9, 3, 3);
+        g.fillOval(x+8, y+14, 3, 3);
+        g.fillOval(x+20, y+19, 3, 3);
+        g.fillOval(x+29, y+14, 3, 3);
+        g.fillOval(x+12, y+23, 3, 3);
+        g.fillOval(x+40, y+25, 3, 3);
+        g.fillOval(x+19, y+27, 3, 3);
+        g.fillOval(x+12, y+34, 3, 3);
+        g.fillOval(x+42, y+34, 3, 3);
+        g.fillOval(x+10, y+45, 3, 3);
+        g.fillOval(x+25, y+42, 3, 3);
+        g.fillOval(x+34, y+45, 3, 3);
+        g.fillOval(x+31, y+30, 3, 3);
+        g.fillOval(x+3, y+25, 3, 3);
+        g.fillOval(x+5, y+4, 3, 3);
+        g.fillOval(x+46, y+46, 3, 3);
         if (isDead == true)
         {
             g.setColor(Color.black);
