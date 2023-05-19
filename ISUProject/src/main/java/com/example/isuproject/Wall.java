@@ -1,9 +1,12 @@
-package com.example.isuproject;
+package com.example.isuproject1;
 
 import java.awt.*;
 
 public class Wall
 {
+    //AS OPPOSED TO CREATING AN IMAGE FOR THE WALLS, I CREATED IT BY HAND USING SMALL RECTANGLES AND CIRCLES
+    //I FOUND THIS ALLOWED THE GAME TO LOOK MORE ARCADEY.
+    //I WOULD CONSIDER THIS AN IMAGE.
     private int x;
     private int y;
     private boolean rightD;
@@ -46,7 +49,7 @@ public class Wall
     {
         g.setColor(Color.yellow);
 
-        if(y>250)
+        if(y>250)// at which depth, which colour VV
         {
             g.setColor(Color.orange);
         }
@@ -71,7 +74,7 @@ public class Wall
         if(y>650)
         {
             g.setColor(Color.red.darker().darker());
-        }
+        }// small specks within the dirt VV
         g.fillOval(x+27, y+2, 3, 3);
         g.fillOval(x+20, y+9, 3, 3);
         g.fillOval(x+45, y+9, 3, 3);
