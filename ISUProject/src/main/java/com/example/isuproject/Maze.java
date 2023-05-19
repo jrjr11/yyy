@@ -1,4 +1,4 @@
-package com.example.isuproject;
+package com.example.isuproject1;
 
 public class Maze {
     private int open = 1;
@@ -63,7 +63,7 @@ public class Maze {
         }
         return result;
     }
-    public String toString()
+    public String toString()// for debugging
     {
         String res = "\n";
 
