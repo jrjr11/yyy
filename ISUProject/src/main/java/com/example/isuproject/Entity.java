@@ -1,4 +1,4 @@
-package com.example.isuproject;
+package com.example.isuproject1;
 import java.awt.*;
 
 public class Entity
