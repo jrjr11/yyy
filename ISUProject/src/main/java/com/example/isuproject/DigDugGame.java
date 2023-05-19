@@ -1,4 +1,4 @@
-package com.example.isuproject;
+package com.example.isuproject1;
 import javafx.event.ActionEvent;
 import java.awt.*;
 import javax.swing.*;
@@ -8,17 +8,37 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
     // Instance Vars
     private Timer timer;
     private Player player;
+
+    private boolean fire;
+
+    private Gun gun;
     private Enemy enemy;
+    private Enemy enemy1;
+    private Enemy enemy2;
+    private Enemy enemy3;
+
     private Entity entity;
     private Wall[][] map = new Wall[14][16];
+    private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private Maze maze;
+    private int score;
 
     boolean[] keys = new boolean[200];
 
     // Constructor
     public DigDugGame() {
-        player = new Player(300, 450, 1, 1, 5, Color.blue);
-        enemy = new Enemy(450, 550, 1, 1, 5, Color.green);
+        player = new Player(300, 450, 1, 1, 10, Color.blue);
+        gun = new Gun(player.getX(), player.getY(),player.getDx(), player.getDy(), 10, Color.green);
+        enemy = new Enemy(450, 550, 1, 1, 1, Color.red, true);
+        enemy1 = new Enemy(200, 600, 1, 1, 1, Color.red, true);
+        enemy2 = new Enemy(50, 300, 1, 1, 1, Color.red, true);
+        enemy3 = new Enemy(500, 150, 1, 1, 1, Color.red, true);
+        score = 0;
+        enemies.add(enemy);
+        enemies.add(enemy1);
+        enemies.add(enemy2);
+        enemies.add(enemy3);
+
         for (int i = 0; i < 14; i++) {
             for (int j = 0; j < 16; j++) {
                 map[i][j] = new Wall((i * 50), ((j + 1) * 50), false, false, false, false, false);
@@ -27,7 +47,7 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
 
 
         addKeyListener(this);
-        timer = new Timer(50, this);
+        timer = new Timer(75, this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         timer.start();
@@ -39,35 +59,65 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
     public void paint(Graphics g) {
         g.setColor(Color.black);
         g.fillRect(0, 0, 700, 850);
-
+        g.setColor(Color.white);
+        g.drawString("" + score, 10, 20);
         g.setColor(Color.yellow);
         g.fillRect(0, 54, 700, 850);
         paintPlayerMovement();
         paintMap(g);
-        enemy.draw(g);
-        enemy.move(maze, map, player);
+        g.setColor(Color.black);
+        g.fillRoundRect(player.getX()+5, player.getY()+5, 41, 41, 10, 10);//to look like player is mining, creates a small black square
+        enemyBehaviour(g);
+        drawGun(g);
         player.draw(g);
-        findPlayer(g);
-        enemy.collidesWith(player);
-        //System.out.println(maze);
-        //paintGrid(g);
+        paintGrid(g);
     }
 
-    public void findPlayer(Graphics g)
+    public void enemyBehaviour(Graphics g)//The way the enemy behaves
     {
-        int x = (enemy.getX()+25)/50;
-        int y = (enemy.getY()-25)/50;
+        for(Enemy e: enemies)
+        {
+            if(e.getAlive() == true) {
+                e.draw(g);
+                e.move(maze, map, player);
+                e.collidesWith(player);
+                findPlayer(g, e);
+            }
+            else
+            {
+                if(e.getY() > 650)
+                {
+                    score += 400;
+                }
+                else if(e.getY() > 450)
+                {
+                    score += 300;
+                }
+                else if(e.getY() > 250)
+                {
+                    score += 200;
+                }
+                else if(e.getY() > 0)
+                {
+                    score += 100;
+                }
+
+                System.out.println(score);
+
+                enemies.remove(e);
+            }
+        }
+    }
+    public void findPlayer(Graphics g, Enemy e)
+    {
+        int x = (e.getX()+25)/50;
+        int y = (e.getY()-25)/50;
         maze = new Maze(14, 16, map, player);
         MazeSolver solver = new MazeSolver(maze);
-
-        //if(solver.traverse(x, y))
-            //System.out.println("caught");
-        //else
-            //System.out.println("Noncaught");
-        enemy.collidesWith(player);
+        e.collidesWith(player);
     }
 
-    public void paintMap(Graphics g) {
+    public void paintMap(Graphics g) {//sets all the spots on the map that are already open
 
         for (int i = 0; i < 3; i++) {map[i + 5][8].setDead(true);}
         for (int i = 0; i < 2; i++) {map[i + 5][8].setRightD(true);}
@@ -110,12 +160,62 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
         }
     }
 
-    public void paintPlayerMovement()
+    public void drawGun (Graphics g)//draws the gun and how it operates (vertical direction or not)
+    {
+
+        int i1 = (gun.getX()+25)/50;
+        int j1 = (gun.getY()-25)/50;
+        if(fire == false){
+            gun.setX(player.getX()+10);
+            gun.setY(player.getY()+10);
+        }
+        else {
+            if(player.getDx() == 0) {
+                gun.setDy(player.getDy());
+                if(Math.abs(player.getY() - gun.getY()) < 60)
+                {
+                    if(j1 != 0)
+                    {
+                        if (map[i1][j1 - 1].getDownD() == true) {
+                            gun.shootV(g);
+                        }
+                    }
+                    if(j1 != 15)
+                    {
+                        if (map[i1][j1 + 1].getUpD() == true) {
+                            gun.shootV(g);
+                        }
+                    }
+                }
+            }
+            else {
+                gun.setDx(player.getDx());
+                if(Math.abs(player.getX() - gun.getX()) < 60 )
+                {
+                    if(i1 != 0)
+                    {
+                        if (map[i1-1][j1].getRightD() == true) {
+                            gun.shoot(g);
+                        }
+                    }
+                    if(i1 != 13)
+                    {
+                        if (map[i1+1][j1].getLeftD() == true) {
+                            gun.shoot(g);
+                        }
+                    }
+                }
+            }
+        }
+        for(Enemy e: enemies)
+            e.ifShot(gun);// if they are shot
+    }
+
+
+    public void paintPlayerMovement()// paints the movement of the player and sets the square they occupy to mined.
     {
         int i1 = (player.getX()+25)/50;
         int j1 = (player.getY()-25)/50;
-        System.out.println("i1:  " + i1);
-        System.out.println("Dy:  " + player.getDy());
         if(player.getY() > 25) {
             if (player.getDx() == 1) {
                 if (i1 != 0) {
@@ -152,7 +252,6 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
                 if (player.getY() % 50 < 40 && player.getY() % 50 > 25) {
                     map[i1][j1].setUpD(true);
                 }
-                //System.out.println("YLOC%%%: "+ (player.getY() % 50));
                 if (i1 != 13) {
                     if (map[i1 + 1][j1].getLeftD() == true) {
                         map[i1][j1].setRightD(true);
@@ -199,7 +298,6 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
                 if (player.getY() % 50 > 10 && player.getY() % 50 < 25) {
                     map[i1][j1].setDownD(true);
                 }
-                //System.out.println("YLOC%%%: "+ (player.getY() % 50));
                 if (i1 != 13) {
                     if (map[i1 + 1][j1].getLeftD() == true) {
                         map[i1][j1].setRightD(true);
@@ -213,7 +311,7 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
             }
         }
         else if (player.getDy() == 1 && player.getY() > 20) {
-                    map[i1][j1].setUpD(true);
+            map[i1][j1].setUpD(true);
         }
 
     }
@@ -256,20 +354,25 @@ public class DigDugGame extends JPanel implements KeyListener, ActionListener {
 
     public void update()
     {
+        fire = false;
         if(keys[KeyEvent.VK_W] || keys[KeyEvent.VK_UP]){
             player.moveUp();
         }
 
-        if(keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN]){
+        else if(keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN]){
             player.moveDown();
         }
 
-        if(keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT]){
+        else if(keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT]){
             player.moveLeft();
         }
 
-        if(keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]){
+        else if(keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]){
             player.moveRight();
         }
+        else if(keys[KeyEvent.VK_SPACE]){
+            fire = true;
+        }
+
     }
 }
