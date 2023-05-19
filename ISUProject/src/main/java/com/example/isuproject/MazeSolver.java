@@ -1,4 +1,4 @@
-package com.example.isuproject;
+package com.example.isuproject1;
 
 public class MazeSolver {
     private Maze maze;
@@ -11,11 +11,11 @@ public class MazeSolver {
     {
         boolean done = false;
 
-        if (maze.validPosition(row, col))
+        if (maze.validPosition(row, col))// if valid pos
         {
-            maze.tryPosition(row, col);
+            maze.tryPosition(row, col);// if it has been gone thru already
 
-            if (maze.solved(row, col))
+            if (maze.solved(row, col))// if possible path
             {
                 done = true;
             }
@@ -31,7 +31,7 @@ public class MazeSolver {
                     done = traverse(row,col+1);
             }
             if(done)
-                maze.markPath(row, col);
+                maze.markPath(row, col);// marks path
         }
         return done;
     }
